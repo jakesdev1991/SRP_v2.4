@@ -1,40 +1,30 @@
-mod lib;
-mod core {
-    pub mod state_machine;
-    pub mod states {
-        pub mod s0_init;
-        pub mod s1_delivery;
-        pub mod s3_analysis;
-        pub mod s5_remediation;
-    }
-}
-mod attestation { pub mod eat; }
-mod components {
-    pub mod live_os;
-    pub mod pcp;
-    pub mod triage;
-}
-mod crypto { pub mod fido; }
-mod hypervisor {
-    pub mod drtm;
-    pub mod sel4;
-}
-mod integration {
-    pub mod bmc;
-    pub mod zta;
-}
+// src/main.rs
+// Reference Implementation Entry Point for SRP v2.4
 
-use core::state_machine;
+// Note: We use the library crate name defined in Cargo.toml
+// If your Cargo.toml name is different, change 'srp_core_v2_4' to match it.
+use srp_core_v2_4::core::state_machine;
+use srp_core_v2_4::hypervisor::sel4;
 
+/// Standard entry point for CI/Linux testing environments.
 fn main() {
-    println!("*** Sovereign Recovery Protocol v2.4 Entry ***");
-    // S0.2_TCB_Measure
-    if let Err(e) = hypervisor::sel4::tcb_measure_sel4() {
-        println!("FATAL: TCB Measurement Failed: {:?}", e);
-        state_machine::halt_error_state(e);
+    println!("*** SRP v2.4 Reference Implementation Starting (Simulation Mode) ***");
+
+    // 1. Simulate S0.2 TCB Measurement
+    println!("[Init] Simulating TCB Measurement...");
+    if let Err(e) = sel4::tcb_measure_sel4() {
+        eprintln!("FATAL: TCB Measurement failed: {}", e);
+        std::process::exit(1);
     }
-    println!("TCB Measured. Handing off to state machine.");
+
+    // 2. Hand off to the Core State Machine
+    println!("[Init] Handing off to State Machine...");
     state_machine::run();
-    println!("FATAL: State machine exited unexpectedly.");
-    state_machine::halt_error_state("StateMachineExited");
+}
+
+/// Bare-metal Entry Point (Required for the spec/DRTM)
+#[no_mangle]
+pub extern "C" fn srp_main() -> ! {
+    state_machine::run();
+    loop { core::hint::spin_loop(); }
 }

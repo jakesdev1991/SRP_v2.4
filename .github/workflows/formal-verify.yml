@@ -1,5 +1,7 @@
 name: Formal Verification
+
 on: [push, pull_request]
+
 jobs:
   tla:
     name: TLA+ Model Check
@@ -8,12 +10,15 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install TLA+
         run: |
+          # FIXED: Direct link to the release, removed the Google Search prefix
           wget https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/TLA-1.8.0.zip -O tla.zip
           unzip tla.zip -d /opt/tla
           ln -s /opt/tla/tla2tools.jar /usr/local/bin/tla2tools.jar
           ln -s /opt/tla/CommunityModules-1.8.0.jar /usr/local/bin/CommunityModules-1.8.0.jar
       - name: Run TLC Model Checker
+        # FIXED: Direct link to spec file if needed, or assumes local file path
         run: java -cp /usr/local/bin/tla2tools.jar tlc2.TLC spec/SRP_v2_4.tla -config spec/SRP_v2_4.cfg -workers auto
+
   coq:
     name: Coq Proof Build
     runs-on: ubuntu-latest
