@@ -120,6 +120,11 @@ Halt_Error ==
     /\ state' = "S10.0_Halt_Error"
     /\ UNCHANGED << tcb_measured, silicon_clean, peripherals_purged, fido_ok, pcp_verified, firmware_matches, policy >>
 
+(* Terminal Loop (Required for Liveness) *)
+Terminating ==
+    /\ state \in {"S9.0_Reboot", "S10.0_Halt_Error"}
+    /\ UNCHANGED vars
+
 (* Next state relation *)
 Next == 
     \/ S0_1_to_S0_2
@@ -142,8 +147,23 @@ Next ==
     \/ S7_0_to_S8_0
     \/ S8_0_to_S9_0
     \/ Halt_Error
+    \/ Terminating
 
 (* Specification *)
 Spec == Init /\ [][Next]_vars
+
+(* INVARIANTS & PROPERTIES (Required by .cfg) *)
+
+(* 1. Flash requires verification *)
+Inv_FlashRequiresPcpAndTcb == (state = "S6.0_Firmware_Flash") => (tcb_measured = TRUE /\ pcp_verified = TRUE)
+
+(* 2. PXE requires peripheral purge *)
+Inv_PxeRequiresPurge == (state = "S1.2_PXE_Deliver_LiveOS") => (peripherals_purged = TRUE)
+
+(* 3. Microcode patch requires silicon check *)
+Inv_MicrocodePatchRequiresSiliconCheck == (state = "S3.1_Microcode_Verify") => (silicon_clean = TRUE)
+
+(* 4. Liveness: Eventually we must reboot or halt *)
+Liveness == <>(state = "S9.0_Reboot" \/ state = "S10.0_Halt_Error")
 
 ====
