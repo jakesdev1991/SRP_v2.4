@@ -1,9 +1,8 @@
-// Main Library Entry Point
-// We re-export 'common' as 'lib' so your code's "use crate::lib::*" imports work
+// Re-export everything from common so it appears at the top level
 pub mod common;
-pub use common as lib;
+pub use common::*;
 
-// Register all the other modules so Rust compiles them
+// Register modules
 pub mod attestation;
 pub mod components;
 pub mod core;

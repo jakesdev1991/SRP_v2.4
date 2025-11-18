@@ -5,7 +5,5 @@ use core::arch::naked_asm;
 #[no_mangle]
 #[naked]
 pub extern "C" fn drtm_launch() -> ! {
-    unsafe {
-        naked_asm!("j srp_main");
-    }
+    naked_asm!("j srp_main");
 }

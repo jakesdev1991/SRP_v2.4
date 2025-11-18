@@ -1,4 +1,13 @@
-use crate::lib::{Result, Policy};
+// Define Result alias here so it is the source of truth
+pub type Result<T> = std::result::Result<T, &'static str>;
+
+// Define Policy here
+#[derive(Debug, Clone)]
+pub enum Policy {
+    DryRun,
+    CleanupOnly,
+    FullFlash,
+}
 
 #[allow(non_camel_case_types)]
 #[derive(Debug, Clone, PartialEq, Eq)]
