@@ -121,3 +121,6 @@ Inv_FlashRequiresPcpAndTcb == (state = "S6.0_Firmware_Flash") => (tcb_measured =
 Inv_PxeRequiresPurge == (state = "S1.2_PXE_Deliver_LiveOS") => (peripherals_purged = TRUE)
 Inv_MicrocodePatchRequiresSiliconCheck == (state = "S3.1_Microcode_Verify") => (silicon_clean = TRUE)
 Liveness == <>(state = "S9.0_Reboot" \/ state = "S10.0_Halt_Error")
+
+====
+
