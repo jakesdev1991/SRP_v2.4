@@ -1,0 +1,30 @@
+name: Formal Verification
+on: [push, pull_request]
+jobs:
+  tla:
+    name: TLA+ Model Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install TLA+
+        run: |
+          wget https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/TLA-1.8.0.zip -O tla.zip
+          unzip tla.zip -d /opt/tla
+          ln -s /opt/tla/tla2tools.jar /usr/local/bin/tla2tools.jar
+          ln -s /opt/tla/CommunityModules-1.8.0.jar /usr/local/bin/CommunityModules-1.8.0.jar
+      - name: Run TLC Model Checker
+        run: java -cp /usr/local/bin/tla2tools.jar tlc2.TLC spec/SRP_v2_4.tla -config spec/SRP_v2_4.cfg -workers auto
+  coq:
+    name: Coq Proof Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Coq
+        uses: coq-actions/setup-coq@v1
+        with:
+          coq_version: '8.18'
+      - name: Build Coq Proofs
+        run: |
+          cd proof
+          coqc TCB.v
+          coqc SRP_v2_4.v

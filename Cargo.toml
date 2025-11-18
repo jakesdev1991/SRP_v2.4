@@ -1,0 +1,17 @@
+[package]
+name = "srp-core-v2-4"
+version = "2.4.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+# cose-rs = "0.2.0"
+# p256 = "0.13.0"
+# sha2 = "0.10.0"
+
+[profile.release]
+opt-level = 'z'
+lto = true
+codegen-units = 1
+panic = 'abort'
+strip = true

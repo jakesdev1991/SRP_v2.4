@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "See"
+  given-names: "Jacob"
+  email: "Jake.s.dev1991@gmail.com"
+title: "Sovereign Recovery Protocol (SRP) v2.4"
+version: 2.4.0
+date-released: 2025-11-17
+abstract: "A Formally-Verified, Zero-Trust Framework for Endpoint Restoration using Rust and seL4."

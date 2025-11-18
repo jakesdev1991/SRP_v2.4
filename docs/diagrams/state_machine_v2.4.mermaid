@@ -1,0 +1,45 @@
+%% Based on Appendix C-4 and Appendix B
+graph TD
+subgraph S0: TCB Launch
+    S0_1[S0.1 DRTM_Launch] --> S0_2[S0.2 TCB_Measure]
+    S0_2 --> S0_3[S0.3 Silicon_Poison_Check]
+    S0_3 --> S0_4[S0.4 Peripheral_Purge]
+end
+subgraph S1: Delivery
+    S0_4 --> S1_0[S1.0 FIDO_Quorum]
+    S1_0 --> S1_1{S1.1 OOB_Deliver_LiveOS?}
+    S1_1 -- Yes --> S2_0[S2.0 PCP_Verify]
+    S1_1 -- No --> S1_2[S1.2 PXE_Deliver_LiveOS]
+    S1_2 --> S2_0
+end
+subgraph S2: Payload Verification
+    S2_0 --> S3_0[S3.0 Triage]
+end
+subgraph S3: Analysis
+    S3_0 --> S3_1[S3.1 Microcode_Verify]
+    S3_1 --> S4_0[S4.0 LiveOS_Attest]
+end
+subgraph S4: Attestation
+    S4_0 --> S5_0[S5.0 Policy_Fetch]
+end
+subgraph S5: Remediation
+    S5_0 --> S5_1[S5.1 Flash_Verify]
+    S5_1 --> S5_2[S5.2 Firmware_Match]
+    S5_2 -- Mismatch --> S6_0[S6.0 Firmware_Flash]
+    S5_2 -- Match --> S5_3[S5.3 Cleanup_Evaluate]
+    S5_3 -- Policy: Clean --> S5_4[S5.4 Malware_Cleanup]
+    S5_3 -- Policy: Flash --> S6_0
+    S5_4 --> S7_0[S7.0 Commit_Attest]
+end
+subgraph S6: Flash
+    S6_0 --> S7_0
+end
+subgraph S7: Commit
+    S7_0 --> S8_0[S8.0 ZTA_Publish]
+end
+subgraph S8: Publish
+    S8_0 --> S9_0[S9.0 Reboot]
+end
+subgraph S9: Reboot
+    S9_0 --> Done(( ))
+end

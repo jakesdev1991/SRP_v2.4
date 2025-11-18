@@ -1,0 +1,6 @@
+[builder]
+id = "srp-pcp-builder-v1"
+[recipe]
+type = "https://srp.example.org/recipes/v1"
+entry_point = "tools/pcp_builder/build.py"
+arguments = [ "--live-os", "path/to/liveos.img", "--firmware", "path/to/firmware.bin" ]
