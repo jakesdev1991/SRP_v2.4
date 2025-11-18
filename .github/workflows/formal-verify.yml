@@ -8,26 +8,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Install TLA+
         run: |
-          # FIXED: Direct link to the release, removed the Google Search prefix
-          wget https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/TLA-1.8.0.zip -O tla.zip
-          unzip tla.zip -d /opt/tla
-          ln -s /opt/tla/tla2tools.jar /usr/local/bin/tla2tools.jar
-          ln -s /opt/tla/CommunityModules-1.8.0.jar /usr/local/bin/CommunityModules-1.8.0.jar
+          # Download the standalone TLA+ tools jar (v1.8.0)
+          wget https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/tla2tools.jar -O tla2tools.jar
+          
+          # Move it to a standard binary path
+          sudo mv tla2tools.jar /usr/local/bin/tla2tools.jar
+
       - name: Run TLC Model Checker
-        # FIXED: Direct link to spec file if needed, or assumes local file path
-        run: java -cp /usr/local/bin/tla2tools.jar tlc2.TLC spec/SRP_v2_4.tla -config spec/SRP_v2_4.cfg -workers auto
+        # Runs the jar directly against your local spec files
+        run: java -jar /usr/local/bin/tla2tools.jar spec/SRP_v2_4.tla -config spec/SRP_v2_4.cfg -workers auto
 
   coq:
     name: Coq Proof Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Install Coq
-        uses: coq-actions/setup-coq@v1
-        with:
-          coq_version: '8.18'
+        # Uses the official Ubuntu package manager for stability
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y coq
+
+      - name: Verify Coq Install
+        run: coqc --version
+
       - name: Build Coq Proofs
         run: |
           cd proof
