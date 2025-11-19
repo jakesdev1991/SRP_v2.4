@@ -1,8 +1,11 @@
-// Re-export everything from common so it appears at the top level
+// 1. Load the common definitions
 pub mod common;
-pub use common::*;
 
-// Register modules
+// 2. Create the 'lib' alias.
+// This makes 'crate::lib::Result' resolve to 'crate::common::Result'.
+pub use common as lib;
+
+// 3. Register the rest of the modules
 pub mod attestation;
 pub mod components;
 pub mod core;
