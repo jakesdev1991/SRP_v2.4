@@ -1,4 +1,4 @@
-use crate::lib::{Result, State, SrpContext, Policy};
+use crate::lib::{State, SrpContext}; // Removed Policy, Result
 use super::states::*;
 
 /// Runs the main state machine loop.
@@ -49,11 +49,15 @@ pub fn run() {
             State::S9_0_Reboot => {
                 println!("[S9.0] Rebooting to clean state.");
                 crate::hypervisor::sel4::reboot_clean();
+                // Fix: Return a Result type to satisfy the match arm requirements.
+                // Since reboot_clean returns (), we force an Err to break flow or satisfy types.
+                Err("Reboot initiated") 
             },
 
             // S10: Halt (Terminal)
             State::S10_0_Halt_Error => {
                 println!("[S10.0] FATAL ERROR. System Halted.");
+                // halt_error_state returns ! (diverging), which effectively coerces to any type, including Result.
                 halt_error_state("Entered Error State");
             },
 
