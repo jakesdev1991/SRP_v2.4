@@ -1,4 +1,4 @@
-use crate::lib::{Result, State, SrpContext};
+use crate::lib::{Result, SrpContext, State};
 
 pub fn microcode_verify_and_patch(context: &mut SrpContext) -> Result<State> {
     println!("[S3.1] Microcode_Verify: Checking CPU microcode...");

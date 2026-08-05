@@ -1,4 +1,4 @@
-use crate::lib::{Result, State, SrpContext};
+use crate::lib::{Result, SrpContext, State};
 
 pub fn triage_run(context: &mut SrpContext) -> Result<State> {
     println!("[S3.0] Triage: Running forensic tools...");

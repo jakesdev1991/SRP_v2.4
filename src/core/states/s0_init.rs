@@ -1,4 +1,4 @@
-use crate::lib::{Result, State, SrpContext};
+use crate::lib::{Result, SrpContext, State};
 
 pub fn silicon_poison_check(context: &mut SrpContext) -> Result<State> {
     println!("[S0.3] Silicon_Poison_Check: Verifying MSRs and microcode...");

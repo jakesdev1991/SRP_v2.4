@@ -1,4 +1,4 @@
-use crate::lib::{Result, State, SrpContext};
+use crate::lib::{Result, SrpContext, State};
 
 pub fn oob_deliver_liveos(_context: &mut SrpContext) -> Result<State> {
     println!("[S1.1] OOB_Deliver_LiveOS: Fetching via BMC...");

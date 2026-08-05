@@ -1,4 +1,4 @@
-use crate::lib::{Result, State, SrpContext};
+use crate::lib::{Result, SrpContext, State};
 
 pub fn fido_quorum_verify(context: &mut SrpContext) -> Result<State> {
     println!("[S1.0] FIDO_Quorum: Verifying M-of-N admin signatures...");

@@ -7,6 +7,6 @@ pub fn tcb_measure_sel4() -> Result<()> {
 
 pub fn reboot_clean() {
     println!("[S9.0] System Rebooting...");
-    // Simulate reboot loop
-    loop { core::hint::spin_loop(); }
+    // Simulation: In a real deployment this would trigger a hardware reset.
+    // In simulation mode we simply return so the caller can exit cleanly.
 }

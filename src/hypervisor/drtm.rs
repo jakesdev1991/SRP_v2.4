@@ -7,7 +7,7 @@ use core::arch::naked_asm;
 pub extern "C" fn drtm_launch() -> ! {
     // Fix: Architecture-specific assembly.
     // The CI runner is x86_64 (requires 'jmp'), but the hardware might be RISC-V (requires 'j').
-    
+
     #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
     naked_asm!("jmp srp_main");
 

@@ -1,4 +1,4 @@
-use crate::lib::{Result, State, SrpContext, Policy};
+use crate::lib::{Policy, Result, SrpContext, State};
 
 pub fn policy_fetch(context: &mut SrpContext) -> Result<State> {
     println!("[S5.0] Policy_Fetch: Fetching remediation policy...");

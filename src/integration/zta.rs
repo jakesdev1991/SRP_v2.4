@@ -1,4 +1,4 @@
-use crate::lib::{Result, State, SrpContext};
+use crate::lib::{Result, SrpContext, State};
 
 pub fn zta_publish_score(_context: &mut SrpContext) -> Result<State> {
     println!("[S8.0] ZTA_Publish: Publishing final attestation token...");

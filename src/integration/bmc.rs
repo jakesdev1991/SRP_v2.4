@@ -1,5 +1,11 @@
 pub struct SpdmClient;
 
+impl Default for SpdmClient {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SpdmClient {
     pub fn new() -> Self {
         SpdmClient

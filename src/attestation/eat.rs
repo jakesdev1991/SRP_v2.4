@@ -1,4 +1,4 @@
-use crate::lib::{Result, State, SrpContext};
+use crate::lib::{Result, SrpContext, State};
 
 pub fn liveos_attest(_context: &mut SrpContext) -> Result<State> {
     println!("[S4.0] LiveOS_Attest: Generating initial EAT token...");

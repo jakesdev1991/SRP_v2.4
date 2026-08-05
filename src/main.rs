@@ -26,5 +26,7 @@ fn main() {
 #[no_mangle]
 pub extern "C" fn srp_main() -> ! {
     state_machine::run();
-    loop { core::hint::spin_loop(); }
+    loop {
+        core::hint::spin_loop();
+    }
 }

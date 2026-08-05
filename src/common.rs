@@ -47,6 +47,12 @@ pub struct SrpContext {
     pub policy: Policy,
 }
 
+impl Default for SrpContext {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SrpContext {
     pub fn new() -> Self {
         SrpContext {
